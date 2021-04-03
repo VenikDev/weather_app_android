@@ -9,8 +9,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,7 +58,7 @@ public class Weather {
     int feelingTemperature = 0;
 
     int maxTemperature = 0;
-    int mimTemperature = 0;
+    int minTemperature = 0;
 
     // Давдение
     int pressure = 0;
@@ -75,6 +78,14 @@ public class Weather {
     long sunSet = 0;
     // Рассвет
     long sunRise = 0;
+
+    private String prepareWeatherIconURL(String icon){
+        return PROTOCOL + HOST_IMAGE + "/img/wn/" + icon + "@4x.png";
+    }
+
+    private int convertKelvinToCel(double value) {
+        return (int)Math.round(value - 273.15);
+    }
 
     Weather(Context context, String city, String apiKey, String lang, int updateTime){
         mParent = context;
@@ -126,6 +137,69 @@ public class Weather {
         });
 
         mRequestQueue.add(jsonRequest);
+    }
+
+    private void parse(JSONObject response) {
+        try{
+
+            // Парсии иконку
+            JSONArray weather = response.getJSONArray("weather");
+            JSONObject current = weather.getJSONObject(0);
+            icon = prepareWeatherIconURL(current.getString("icon"));
+
+            // Данные по температуре
+            JSONObject main = response.getJSONObject("main");
+            currentTemperature  = convertKelvinToCel(main.getDouble("temp"));
+            feelingTemperature  = convertKelvinToCel(main.getDouble("feels_like"));
+            maxTemperature      = convertKelvinToCel(main.getDouble("temp_min"));
+            minTemperature      = convertKelvinToCel(main.getDouble("temp_max"));
+
+            pressure = main.getInt("pressure");
+            humidity = main.getInt("humidity");
+
+            // Данные о влажности
+            JSONObject visibilityData = new JSONObject((Map) response);
+            visibility = visibilityData.getInt("visibility");
+
+            // Данные о ветре
+            JSONObject windData = response.getJSONObject("wind");
+
+            windSpeed = windData.getInt("speed");
+            windDirection = windData.getInt("deg");
+
+            // данные об облаке
+            JSONObject cloudsData = response.getJSONObject("clouds");
+            clouds = windData.getInt("all");
+
+            // данные о рассвете и закате
+            JSONObject sunRiseAndSet = response.getJSONObject("sys");
+            sunSet  = windData.getLong("sunset");
+            sunRise = windData.getLong("sunrise");
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            onError();
+        }
+    }
+
+    private void onError() {
+        if(mDelegate != null)
+            mDelegate.onError();
+        if(mTimer != null)
+            mTimer.cancel();
+    }
+
+    public void setCity(String city){
+        if(!city.isEmpty()){
+            mCity = city;
+
+            update();
+        }
+    }
+
+    public void setDelegate(WeatherDelegate delegate){
+        mDelegate = delegate;
     }
 
 }
