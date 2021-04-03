@@ -21,6 +21,8 @@ public class MyApplication extends Application {
         mListOfCities = new ArrayList<String>();
         mListOfCities.add("Нижний Тагил");
 
-        mWeather = new Weather(this, mListOfCities.get(0), "a3e779f05934a6b63039eb3b2cf1b16f", "ru", 60000);
+        mWeather = new Weather(this, mListOfCities.get(0),
+                "a3e779f05934a6b63039eb3b2cf1b16f",
+                "ru", 60000);
     }
 }
