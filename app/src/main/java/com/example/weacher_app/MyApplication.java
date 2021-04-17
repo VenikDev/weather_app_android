@@ -1,12 +1,12 @@
 package com.example.weacher_app;
 
 import android.app.Application;
-
 import java.util.ArrayList;
 
 public class MyApplication extends Application {
     private ArrayList<String> mListOfCities;
     private Weather mWeather;
+
 
     public ArrayList<String> getListCities()
         { return mListOfCities; }

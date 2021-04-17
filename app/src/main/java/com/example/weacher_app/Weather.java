@@ -93,8 +93,10 @@ public class Weather {
         mApiKey = apiKey;
         mLang = lang;
 
-        if(updateTime < 50000)
+        if(updateTime < 50000){
             updateTime = 50000;
+            mUpdateTime = updateTime;
+        }
         else
             mUpdateTime = updateTime;
 
@@ -114,7 +116,7 @@ public class Weather {
         }, 0, mUpdateTime);
     }
 
-    private void update() {
+    public void update() {
         // Создание запроса
         String url = PROTOCOL + HOST + REQUEST_PATH_CURRENT
                 + "q=" + mCity + "&appid=" + mApiKey + "&lang=" + mLang;
