@@ -22,7 +22,7 @@ public class MyApplication extends Application {
         mListOfCities.add("Нижний Тагил");
 
         mWeather = new Weather(this, mListOfCities.get(0),
-                "a3e779f05934a6b63039eb3b2cf1b16f",
+                "d330221ce2dd6f070fc00118289bf0f8",
                 "ru", 60000);
     }
 }

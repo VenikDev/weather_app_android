@@ -1,5 +1,17 @@
 <resources>
     <!--  Название приложения  -->
-    <string name="app_name">Weather app</string>
+    <string name="app_name">Погода</string>
+    <string name="update_btn">Обновить</string>
+    <!--  Температура  -->
+    <string name="feelingTemperature">Ощущается как</string>
+    <string name="maxTemperature">Макс. темпр</string>
+    <string name="minTemperature">Мин. темпр</string>
 
+    <!--  Ветер  -->
+    <string name="windSpeed">Скорость ветра</string>
+    <string name="windDeg">Направление ветра</string>
+
+    <!--  Меню  -->
+    <string name="Cities">Города</string>
+    <string name="About">Об приложении</string>
 </resources>

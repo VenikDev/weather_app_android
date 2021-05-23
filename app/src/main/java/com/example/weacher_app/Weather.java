@@ -120,6 +120,7 @@ public class Weather {
         // Создание запроса
         String url = PROTOCOL + HOST + REQUEST_PATH_CURRENT
                 + "q=" + mCity + "&appid=" + mApiKey + "&lang=" + mLang;
+//        String url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=b1b15e88fa797225412429c1c50c122a&lang=en-US";
 
         send(url);
     }
@@ -156,27 +157,30 @@ public class Weather {
             maxTemperature      = convertKelvinToCel(main.getDouble("temp_min"));
             minTemperature      = convertKelvinToCel(main.getDouble("temp_max"));
 
-            pressure = main.getInt("pressure");
-            humidity = main.getInt("humidity");
-
-            // Данные о влажности
-            JSONObject visibilityData = new JSONObject((Map) response);
-            visibility = visibilityData.getInt("visibility");
+//            // Данные о влажности
+//            JSONObject visibilityData = response.getJSONObject("visibility");
+//            visibility = visibilityData.getInt("visibility");
 
             // Данные о ветре
             JSONObject windData = response.getJSONObject("wind");
-
             windSpeed = windData.getInt("speed");
             windDirection = windData.getInt("deg");
 
-            // данные об облаке
-            JSONObject cloudsData = response.getJSONObject("clouds");
-            clouds = windData.getInt("all");
-
-            // данные о рассвете и закате
-            JSONObject sunRiseAndSet = response.getJSONObject("sys");
-            sunSet  = windData.getLong("sunset");
-            sunRise = windData.getLong("sunrise");
+//            pressure = main.getInt("pressure");
+//            humidity = main.getInt("humidity");
+//
+//            // Данные о влажности
+//            JSONObject visibilityData = new JSONObject(response);
+//            visibility = visibilityData.getInt("visibility");
+//
+//            // данные об облаке
+//            JSONObject cloudsData = response.getJSONObject("clouds");
+//            clouds = windData.getInt("all");
+//
+//            // данные о рассвете и закате
+//            JSONObject sunRiseAndSet = response.getJSONObject("sys");
+//            sunSet  = windData.getLong("sunset");
+//            sunRise = windData.getLong("sunrise");
 
         }
         catch (JSONException e) {
