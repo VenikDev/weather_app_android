@@ -129,10 +129,10 @@
 
     <TextView
         android:id="@+id/textViewWindDeg"
-        android:layout_width="102dp"
+        android:layout_width="140dp"
         android:layout_height="54dp"
         android:layout_marginTop="252dp"
-        android:layout_marginEnd="61dp"
+        android:layout_marginEnd="23dp"
         android:fontFamily="@font/acme"
         android:gravity="center|left"
         android:text="0"
@@ -152,5 +152,57 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewWindDeg" />
+
+    <TextView
+        android:id="@+id/textViewVisibility"
+        android:layout_width="102dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="364dp"
+        android:fontFamily="@font/acme"
+        android:gravity="center|left"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewTemp" />
+
+    <TextView
+        android:id="@+id/textVisibility"
+        android:layout_width="145dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/acme"
+        android:text="@string/visibility"
+        android:textColor="@color/blue_darken_1"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewVisibility" />
+
+    <TextView
+        android:id="@+id/textViewClouds"
+        android:layout_width="102dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="61dp"
+        android:fontFamily="@font/acme"
+        android:gravity="center|left"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewTemp" />
+
+    <TextView
+        android:id="@+id/textClouds"
+        android:layout_width="145dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="18dp"
+        android:fontFamily="@font/acme"
+        android:text="@string/clouds"
+        android:textColor="@color/blue_darken_1"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewClouds" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

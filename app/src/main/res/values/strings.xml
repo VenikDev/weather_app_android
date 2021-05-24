@@ -11,7 +11,19 @@
     <string name="windSpeed">Скорость ветра</string>
     <string name="windDeg">Направление ветра</string>
 
+    <!--  Влажность и облачность  -->
+    <string name="visibility">Влажность</string>
+    <string name="clouds">Облачность</string>
+
     <!--  Меню  -->
     <string name="Cities">Города</string>
     <string name="About">Об приложении</string>
+
+    <string name="activeBarTitle">Города</string>
+    <string name="aboutActiveBarTitle">Об приложении</string>
+
+    <!-- Dialog -->
+    <string name="titleInputDialog">Добавить город</string>
+    <string name="btnAddInputDialog">Добавить</string>
+    <string name="btnCancelInputDialog">Отмена</string>
 </resources>

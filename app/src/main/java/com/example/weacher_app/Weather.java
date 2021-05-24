@@ -19,15 +19,15 @@ import java.util.TimerTask;
 
 public class Weather {
     // протокол
-    private final String PROTOCOL   = "https://";
+    private final String PROTOCOL = "https://";
 
     // хост сервиса
-    private final String HOST       = "api.openweathermap.org";
+    private final String HOST = "api.openweathermap.org";
     private final String HOST_IMAGE = "openweathermap.org";
 
     // путь запроса
     private final String
-            REQUEST_PATH_CURRENT    = "/data/2.5/weather?";
+            REQUEST_PATH_CURRENT = "/data/2.5/weather?";
 
     // -- ОБВЯЗКА --
 
@@ -71,7 +71,7 @@ public class Weather {
     // скорость ветра
     int windSpeed = 0;
     // Направленияе ветра
-    int windDirection = 0;
+    String windDirection;
     // облоко
     int clouds = 0;
     // Закат
@@ -79,25 +79,26 @@ public class Weather {
     // Рассвет
     long sunRise = 0;
 
-    private String prepareWeatherIconURL(String icon){
+    int direction = 0;
+
+    private String prepareWeatherIconURL(String icon) {
         return PROTOCOL + HOST_IMAGE + "/img/wn/" + icon + "@4x.png";
     }
 
     private int convertKelvinToCel(double value) {
-        return (int)Math.round(value - 273.15);
+        return (int) Math.round(value - 273.15);
     }
 
-    Weather(Context context, String city, String apiKey, String lang, int updateTime){
+    Weather(Context context, String city, String apiKey, String lang, int updateTime) {
         mParent = context;
         mCity = city;
         mApiKey = apiKey;
         mLang = lang;
 
-        if(updateTime < 50000){
+        if (updateTime < 50000) {
             updateTime = 50000;
             mUpdateTime = updateTime;
-        }
-        else
+        } else
             mUpdateTime = updateTime;
 
         init();
@@ -108,9 +109,9 @@ public class Weather {
         mRequestQueue = Volley.newRequestQueue(mParent);
 
         mTimer = new Timer();
-        mTimer.scheduleAtFixedRate(new TimerTask(){
+        mTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
-            public void run(){
+            public void run() {
                 update();
             }
         }, 0, mUpdateTime);
@@ -126,14 +127,14 @@ public class Weather {
     }
 
     private void send(String url) {
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>(){
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response){
+            public void onResponse(JSONObject response) {
                 parse(response);
             }
-        }, new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error){
+            public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 onError();
             }
@@ -143,7 +144,7 @@ public class Weather {
     }
 
     private void parse(JSONObject response) {
-        try{
+        try {
 
             // Парсии иконку
             JSONArray weather = response.getJSONArray("weather");
@@ -152,19 +153,19 @@ public class Weather {
 
             // Данные по температуре
             JSONObject main = response.getJSONObject("main");
-            currentTemperature  = convertKelvinToCel(main.getDouble("temp"));
-            feelingTemperature  = convertKelvinToCel(main.getDouble("feels_like"));
-            maxTemperature      = convertKelvinToCel(main.getDouble("temp_min"));
-            minTemperature      = convertKelvinToCel(main.getDouble("temp_max"));
+            currentTemperature = convertKelvinToCel(main.getDouble("temp"));
+            feelingTemperature = convertKelvinToCel(main.getDouble("feels_like"));
+            maxTemperature = convertKelvinToCel(main.getDouble("temp_min"));
+            minTemperature = convertKelvinToCel(main.getDouble("temp_max"));
 
-//            // Данные о влажности
-//            JSONObject visibilityData = response.getJSONObject("visibility");
-//            visibility = visibilityData.getInt("visibility");
+            // Данные о влажности
+            visibility = response.getInt("visibility");
 
             // Данные о ветре
             JSONObject windData = response.getJSONObject("wind");
             windSpeed = windData.getInt("speed");
-            windDirection = windData.getInt("deg");
+            direction = windData.getInt("deg");
+            windDirection = convertingWindDirection(direction);
 
 //            pressure = main.getInt("pressure");
 //            humidity = main.getInt("humidity");
@@ -173,39 +174,56 @@ public class Weather {
 //            JSONObject visibilityData = new JSONObject(response);
 //            visibility = visibilityData.getInt("visibility");
 //
-//            // данные об облаке
-//            JSONObject cloudsData = response.getJSONObject("clouds");
-//            clouds = windData.getInt("all");
+            // данные об облаке
+            JSONObject cloudsData = response.getJSONObject("clouds");
+            clouds = cloudsData.getInt("all");
 //
 //            // данные о рассвете и закате
 //            JSONObject sunRiseAndSet = response.getJSONObject("sys");
 //            sunSet  = windData.getLong("sunset");
 //            sunRise = windData.getLong("sunrise");
 
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             onError();
         }
     }
 
+    private String convertingWindDirection(int windDeg) {
+        if (windDeg >= 335 && windDeg <= 25)
+            return "С";
+        else if (windDeg > 25 && windDeg <= 70)
+            return "С-В";
+        else if (windDeg > 70 && windDeg <= 115)
+            return "В";
+        else if (windDeg > 115 && windDeg <= 160)
+            return "Ю-В";
+        else if (windDeg > 160 && windDeg <= 205)
+            return "Ю";
+        else if (windDeg > 205 && windDeg <= 250)
+            return "Ю-З";
+        else if (windDeg > 250 && windDeg <= 295)
+            return "З";
+        else
+            return "C-З";
+    }
+
     private void onError() {
-        if(mDelegate != null)
+        if (mDelegate != null)
             mDelegate.onError();
-        if(mTimer != null)
+        if (mTimer != null)
             mTimer.cancel();
     }
 
-    public void setCity(String city){
-        if(!city.isEmpty()){
+    public void setCity(String city) {
+        if (!city.isEmpty()) {
             mCity = city;
 
             update();
         }
     }
 
-    public void setDelegate(WeatherDelegate delegate){
+    public void setDelegate(WeatherDelegate delegate) {
         mDelegate = delegate;
     }
-
 }
