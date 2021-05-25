@@ -25,6 +25,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class FilesUtils {
     private Context mContext;
 
@@ -39,7 +41,7 @@ public class FilesUtils {
      */
     void domDocumentToFile(Document doc, String fileName){
         try{
-            FileOutputStream file = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            FileOutputStream file = mContext.openFileOutput(fileName, MODE_PRIVATE);
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -75,7 +77,7 @@ public class FilesUtils {
 
     void textToFile(String text, String fileName) {
         try{
-            FileOutputStream outputStream = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            FileOutputStream outputStream = mContext.openFileOutput(fileName, MODE_PRIVATE);
 
             byte[] bytes = text.getBytes();
 

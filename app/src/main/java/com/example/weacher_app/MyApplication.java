@@ -59,7 +59,7 @@ public class MyApplication extends Application {
             Document doc = builder.newDocument();
             Element cities = doc.createElement("city");
             for (int i = 0; i < mListOfCities.size(); ++i) {
-                Element item = doc.createElement("iten");
+                Element item = doc.createElement("item");
                 item.setTextContent(mListOfCities.get(i));
                 cities.appendChild(item);
             }
@@ -116,7 +116,7 @@ public class MyApplication extends Application {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if(notificationManager != null)
+        if (notificationManager != null)
             notificationManager.notify(mNotificationId++, notificationBuilder.build());
     }
 
@@ -127,17 +127,21 @@ public class MyApplication extends Application {
         mFilesUtils = new FilesUtils();
         mFilesUtils.setContext(this);
 
+        mListOfCities = new ArrayList<String>();
+
         loadCityDom();
 
-        mListOfCities = new ArrayList<String>();
-        mListOfCities.add("Нижний Тагил");
-        mListOfCities.add("Москва");
-        mListOfCities.add("Екатеринбург");
-        mListOfCities.add("Казань");
-        mListOfCities.add("Воронеж");
-        mListOfCities.add("Новосибирск");
-        mListOfCities.add("Челябинск");
-        mListOfCities.add("Омск");
+        if (mListOfCities.size() == 0) {
+            mListOfCities.add("Нижний Тагил");
+            mListOfCities.add("Москва");
+            mListOfCities.add("Екатеринбург");
+            mListOfCities.add("Казань");
+            mListOfCities.add("Воронеж");
+            mListOfCities.add("Новосибирск");
+            mListOfCities.add("Челябинск");
+            mListOfCities.add("Омск");
+        }
+
 
         mWeather = new Weather(this, SelectedCity,
                 "d330221ce2dd6f070fc00118289bf0f8",
