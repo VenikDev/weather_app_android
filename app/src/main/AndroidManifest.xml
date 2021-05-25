@@ -4,6 +4,7 @@
     package="com.example.weacher_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MyApplication"
@@ -14,7 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Weacher_app"
         tools:ignore="ExtraText">
-        <activity android:name=".About"></activity>
+        <service
+            android:name=".WeatherService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".About" />
         <activity android:name=".ListCities" />
         <activity android:name=".MainActivity">
             <intent-filter>

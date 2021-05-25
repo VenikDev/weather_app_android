@@ -137,4 +137,10 @@ public class MainActivity
         Intent intent = new Intent(getApplicationContext(), About.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mApp.saveCityDom();
+    }
 }

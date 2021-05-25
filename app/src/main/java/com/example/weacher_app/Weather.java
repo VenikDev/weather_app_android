@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,8 +45,8 @@ public class Weather {
     private int mUpdateTime = 0;
     // таймер обновления
     private Timer mTimer = null;
-    // делагат погоды
-    private WeatherDelegate mDelegate = null;
+    // Список делегатов
+    ArrayList<WeatherDelegate> mDelegates;
 
     // -- ДАННЫЕ ПОГОДЫ --
 
@@ -105,6 +105,7 @@ public class Weather {
     }
 
     private void init() {
+        mDelegates = new ArrayList<WeatherDelegate>();
         // Создаем очередь запросов
         mRequestQueue = Volley.newRequestQueue(mParent);
 
@@ -209,8 +210,9 @@ public class Weather {
     }
 
     private void onError() {
-        if (mDelegate != null)
-            mDelegate.onError();
+        for(WeatherDelegate item : mDelegates){
+            item.onError();
+        }
         if (mTimer != null)
             mTimer.cancel();
     }
@@ -223,7 +225,11 @@ public class Weather {
         }
     }
 
+    public String getCity() {
+        return mCity;
+    }
+
     public void setDelegate(WeatherDelegate delegate) {
-        mDelegate = delegate;
+        mDelegates.add(delegate);
     }
 }

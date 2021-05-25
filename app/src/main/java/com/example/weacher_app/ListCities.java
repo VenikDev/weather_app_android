@@ -78,9 +78,6 @@ public class ListCities extends AppCompatActivity implements DialogDelegate{
             }
         });
 
-
-
-
         mInputDialog = new InputDialog(this, "Добавить город.");
         mInputDialog.setDelegate(this);
 
